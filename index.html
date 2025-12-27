@@ -94,6 +94,12 @@
             border: none;
             color: #fff;
             outline: none;
+            /* Forçar teclado numérico */
+            inputmode: numeric;
+        }
+
+        .password-input input::placeholder {
+            color: rgba(212, 179, 255, 0.4);
         }
 
         .password-input .separator {
@@ -221,55 +227,6 @@
             font-size: 1.1rem;
         }
 
-        /* Botões de ação */
-        .action-buttons {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .action-btn {
-            flex: 1;
-            min-width: 150px;
-            padding: 15px;
-            font-size: 1.1rem;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            letter-spacing: 1px;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .save-btn {
-            background: linear-gradient(to right, #8a2be2, #c770ff);
-            color: white;
-            box-shadow: 0 0 15px rgba(138, 43, 226, 0.7);
-        }
-
-        .print-btn {
-            background: linear-gradient(to right, #4b0082, #8a2be2);
-            color: white;
-            box-shadow: 0 0 15px rgba(75, 0, 130, 0.7);
-        }
-
-        .back-btn {
-            background: linear-gradient(to right, #4a004a, #8b008b);
-            color: white;
-            box-shadow: 0 0 15px rgba(139, 0, 139, 0.7);
-        }
-
-        .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(138, 43, 226, 0.9);
-        }
-
         /* Responsividade */
         @media (max-width: 768px) {
             .container {
@@ -294,14 +251,6 @@
             .password-input .separator {
                 width: 25px;
                 height: 50px;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .action-btn {
-                width: 100%;
             }
         }
 
@@ -340,25 +289,66 @@
             animation: fadeIn 0.8s ease-out;
         }
 
-        /* Estilo para o placeholder quando estiver vazio */
-        .text-container:empty:before {
-            content: attr(data-placeholder);
-            color: rgba(212, 179, 255, 0.6);
+        /* Estilo para inputs numéricos */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
-        /* Notificação de salvamento */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: linear-gradient(to right, #8a2be2, #c770ff);
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* Teclado numérico personalizado */
+        .numeric-keyboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 300px;
+            margin: 20px auto;
+        }
+
+        .numeric-key {
+            background: linear-gradient(to bottom, #4a004a, #2a002a);
             color: white;
-            padding: 15px 25px;
+            border: none;
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
-            z-index: 1000;
-            display: none;
-            animation: fadeIn 0.5s ease-out;
+            font-size: 1.5rem;
+            height: 60px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .numeric-key:hover {
+            background: linear-gradient(to bottom, #5a005a, #3a003a);
+            transform: translateY(-2px);
+        }
+
+        .numeric-key:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .key-delete {
+            background: linear-gradient(to bottom, #8a2be2, #6a1bc2);
+            grid-column: span 3;
+            margin-top: 10px;
+        }
+
+        .key-delete:hover {
+            background: linear-gradient(to bottom, #9a3bf2, #7a2bd2);
+        }
+
+        .numeric-instruction {
+            font-size: 0.9rem;
+            color: #d4b3ff;
+            margin-top: 15px;
+            font-style: italic;
         }
     </style>
 </head>
@@ -374,82 +364,81 @@
             
             <div class="password-container">
                 <div class="password-input">
-                    <input type="text" id="day" maxlength="2" placeholder="DD" autocomplete="off">
+                    <input type="text" id="day" maxlength="2" placeholder="DD" autocomplete="off" pattern="\d*" inputmode="numeric">
                     <div class="separator">/</div>
-                    <input type="text" id="month" maxlength="2" placeholder="MM" autocomplete="off">
+                    <input type="text" id="month" maxlength="2" placeholder="MM" autocomplete="off" pattern="\d*" inputmode="numeric">
                     <div class="separator">/</div>
-                    <input type="text" id="year" maxlength="4" placeholder="AAAA" autocomplete="off">
+                    <input type="text" id="year" maxlength="4" placeholder="AAAA" autocomplete="off" pattern="\d*" inputmode="numeric">
                 </div>
             </div>
+            
+            <p class="numeric-instruction">Use o teclado numérico do seu dispositivo</p>
             
             <button class="submit-btn" id="submitBtn">
                 <i class="fas fa-paper-plane"></i> Acessar Carta
             </button>
             
             <div class="error-message" id="errorMessage"></div>
+            
+            <!-- Teclado numérico opcional para dispositivos touch -->
+            <div class="numeric-keyboard" id="numericKeyboard">
+                <div class="numeric-key" data-value="1">1</div>
+                <div class="numeric-key" data-value="2">2</div>
+                <div class="numeric-key" data-value="3">3</div>
+                <div class="numeric-key" data-value="4">4</div>
+                <div class="numeric-key" data-value="5">5</div>
+                <div class="numeric-key" data-value="6">6</div>
+                <div class="numeric-key" data-value="7">7</div>
+                <div class="numeric-key" data-value="8">8</div>
+                <div class="numeric-key" data-value="9">9</div>
+                <div class="numeric-key" data-value="0">0</div>
+                <div class="numeric-key key-delete" id="keyDelete">
+                    <i class="fas fa-backspace"></i> Apagar
+                </div>
+            </div>
         </div>
         
         <!-- Tela da carta (inicialmente oculta) -->
         <div class="letter-screen" id="letterScreen">
-            <div class="letter-header">
-                <h1><i class="fas fa-heart"></i> Minha Carta</h1>
-                <div class="letter-date" id="currentDate"></div>
-            </div>
-            
             <div class="letter-container">
                 <div class="letter-section">
-                    <h2><i class="fas fa-star"></i> Introdução</h2>
                     <div class="text-container">
-                        <label class="container-label">Comece sua carta com uma saudação:</label>
-                        <textarea placeholder="Escreva aqui a introdução da sua carta..." rows="4"></textarea>
+                        <label class="container-label">Saudação inicial:</label>
+                        <textarea placeholder="Querida pessoa especial..." rows="4"></textarea>
                     </div>
                 </div>
                 
                 <div class="letter-section">
-                    <h2><i class="fas fa-comment"></i> Mensagem Principal</h2>
                     <div class="text-container">
-                        <label class="container-label">Expresse seus sentimentos e pensamentos:</label>
-                        <textarea placeholder="Escreva aqui o corpo principal da sua carta..." rows="6"></textarea>
+                        <label class="container-label">O que sinto por você:</label>
+                        <textarea placeholder="Escreva aqui seus sentimentos mais profundos..." rows="6"></textarea>
                     </div>
                 </div>
                 
                 <div class="letter-section">
-                    <h2><i class="fas fa-heartbeat"></i> Reflexões Pessoais</h2>
                     <div class="text-container">
-                        <label class="container-label">Compartilhe suas reflexões mais íntimas:</label>
-                        <textarea placeholder="Escreva aqui suas reflexões pessoais..." rows="5"></textarea>
+                        <label class="container-label">Memórias especiais:</label>
+                        <textarea placeholder="Lembro-me daquele dia especial quando..." rows="5"></textarea>
                     </div>
                 </div>
                 
                 <div class="letter-section">
-                    <h2><i class="fas fa-flag-checkered"></i> Conclusão</h2>
                     <div class="text-container">
-                        <label class="container-label">Finalize sua carta com uma despedida:</label>
-                        <textarea placeholder="Escreva aqui a conclusão da sua carta..." rows="4"></textarea>
+                        <label class="container-label">Mensagem final:</label>
+                        <textarea placeholder="Com todo meu carinho e amor..." rows="4"></textarea>
                     </div>
                 </div>
-            </div>
-            
-            <div class="action-buttons">
-                <button class="action-btn save-btn" id="saveBtn">
-                    <i class="fas fa-save"></i> Salvar Carta
-                </button>
-                <button class="action-btn print-btn" id="printBtn">
-                    <i class="fas fa-print"></i> Imprimir Carta
-                </button>
-                <button class="action-btn back-btn" id="backBtn">
-                    <i class="fas fa-sign-out-alt"></i> Sair
-                </button>
+                
+                <div class="letter-section">
+                    <div class="text-container">
+                        <label class="container-label">Assinatura:</label>
+                        <textarea placeholder="Com amor, [seu nome]" rows="2"></textarea>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     
-    <!-- Notificação de salvamento -->
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle"></i> Carta salva com sucesso!
-    </div>
-    
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
         // Configuração das partículas (estrelas)
@@ -473,26 +462,14 @@
                 }
             });
             
-            // Configurar data atual
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('currentDate').textContent = now.toLocaleDateString('pt-BR', options);
-            
             // Auto-foco no primeiro campo de data
             document.getElementById('day').focus();
             
-            // Auto-avanço entre campos de data
-            document.getElementById('day').addEventListener('input', function() {
-                if (this.value.length >= 2) {
-                    document.getElementById('month').focus();
-                }
-            });
+            // Configurar inputs para aceitar apenas números
+            setupNumericInputs();
             
-            document.getElementById('month').addEventListener('input', function() {
-                if (this.value.length >= 2) {
-                    document.getElementById('year').focus();
-                }
-            });
+            // Configurar teclado numérico virtual
+            setupVirtualKeyboard();
             
             // Validação da senha (data)
             document.getElementById('submitBtn').addEventListener('click', validatePassword);
@@ -503,12 +480,125 @@
                     validatePassword();
                 }
             });
-            
-            // Botões de ação
-            document.getElementById('saveBtn').addEventListener('click', saveLetter);
-            document.getElementById('printBtn').addEventListener('click', printLetter);
-            document.getElementById('backBtn').addEventListener('click', goBackToLogin);
         });
+        
+        // Configurar inputs para aceitar apenas números
+        function setupNumericInputs() {
+            const inputs = document.querySelectorAll('#day, #month, #year');
+            
+            inputs.forEach(input => {
+                // Impedir entrada de caracteres não numéricos
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/\D/g, '');
+                    
+                    // Auto-avanço entre campos
+                    if (this.value.length >= this.maxLength) {
+                        const nextInput = this.nextElementSibling?.nextElementSibling;
+                        if (nextInput && nextInput.tagName === 'INPUT') {
+                            nextInput.focus();
+                        }
+                    }
+                });
+                
+                // Permitir navegação com setas e delete
+                input.addEventListener('keydown', function(e) {
+                    // Se for backspace e o campo estiver vazio, voltar para o campo anterior
+                    if (e.key === 'Backspace' && this.value === '') {
+                        const prevInput = this.previousElementSibling?.previousElementSibling;
+                        if (prevInput && prevInput.tagName === 'INPUT') {
+                            prevInput.focus();
+                        }
+                    }
+                    
+                    // Permitir setas para navegar entre campos
+                    if (e.key === 'ArrowLeft' && this.selectionStart === 0) {
+                        const prevInput = this.previousElementSibling?.previousElementSibling;
+                        if (prevInput && prevInput.tagName === 'INPUT') {
+                            prevInput.focus();
+                            e.preventDefault();
+                        }
+                    }
+                    
+                    if (e.key === 'ArrowRight' && this.selectionStart === this.value.length) {
+                        const nextInput = this.nextElementSibling?.nextElementSibling;
+                        if (nextInput && nextInput.tagName === 'INPUT') {
+                            nextInput.focus();
+                            e.preventDefault();
+                        }
+                    }
+                });
+            });
+        }
+        
+        // Configurar teclado numérico virtual
+        function setupVirtualKeyboard() {
+            const numericKeys = document.querySelectorAll('.numeric-key[data-value]');
+            const deleteKey = document.getElementById('keyDelete');
+            let activeInput = document.getElementById('day');
+            
+            // Manter controle do input ativo
+            document.querySelectorAll('#day, #month, #year').forEach(input => {
+                input.addEventListener('focus', function() {
+                    activeInput = this;
+                });
+            });
+            
+            // Adicionar eventos aos botões numéricos
+            numericKeys.forEach(key => {
+                key.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    
+                    if (activeInput) {
+                        // Se o campo já tiver o número máximo de caracteres, não adicionar mais
+                        if (activeInput.value.length >= activeInput.maxLength) {
+                            // Tentar ir para o próximo campo
+                            const nextInput = activeInput.nextElementSibling?.nextElementSibling;
+                            if (nextInput && nextInput.tagName === 'INPUT') {
+                                nextInput.focus();
+                                activeInput = nextInput;
+                            } else {
+                                return; // Não há próximo campo, não fazer nada
+                            }
+                        }
+                        
+                        // Adicionar o valor
+                        activeInput.value += value;
+                        
+                        // Se atingiu o tamanho máximo, ir para o próximo campo
+                        if (activeInput.value.length >= activeInput.maxLength) {
+                            const nextInput = activeInput.nextElementSibling?.nextElementSibling;
+                            if (nextInput && nextInput.tagName === 'INPUT') {
+                                nextInput.focus();
+                                activeInput = nextInput;
+                            }
+                        }
+                        
+                        // Disparar evento de input para validação
+                        activeInput.dispatchEvent(new Event('input'));
+                    }
+                });
+            });
+            
+            // Configurar botão de apagar
+            deleteKey.addEventListener('click', function() {
+                if (activeInput) {
+                    // Se o campo está vazio, voltar para o campo anterior
+                    if (activeInput.value === '') {
+                        const prevInput = activeInput.previousElementSibling?.previousElementSibling;
+                        if (prevInput && prevInput.tagName === 'INPUT') {
+                            prevInput.focus();
+                            activeInput = prevInput;
+                        }
+                    }
+                    
+                    // Apagar o último caractere
+                    activeInput.value = activeInput.value.slice(0, -1);
+                    
+                    // Disparar evento de input para validação
+                    activeInput.dispatchEvent(new Event('input'));
+                }
+            });
+        }
         
         // Função para validar a senha (data)
         function validatePassword() {
@@ -517,6 +607,12 @@
             const year = document.getElementById('year').value;
             const errorMessage = document.getElementById('errorMessage');
             
+            // Verificar se todos os campos foram preenchidos
+            if (!day || !month || !year) {
+                errorMessage.textContent = 'Por favor, preencha todos os campos.';
+                return;
+            }
+            
             // Verificar se a data corresponde a 01/06/2023
             if (day === '01' && month === '06' && year === '2023') {
                 // Esconder tela de login e mostrar a carta
@@ -524,8 +620,12 @@
                 document.getElementById('letterScreen').style.display = 'block';
                 document.getElementById('letterScreen').classList.add('fade-in');
                 errorMessage.textContent = '';
+                
+                // Focar no primeiro textarea
+                document.querySelector('.text-container textarea').focus();
             } else {
                 errorMessage.textContent = 'Data incorreta. Tente novamente.';
+                
                 // Efeito de shake nos campos
                 const inputs = document.querySelectorAll('.password-input input');
                 inputs.forEach(input => {
@@ -540,99 +640,11 @@
                 setTimeout(() => {
                     errorMessage.style.animation = 'fadeIn 0.5s ease-out';
                 }, 10);
+                
+                // Focar no primeiro campo e selecionar todo o texto
+                document.getElementById('day').focus();
+                document.getElementById('day').select();
             }
-        }
-        
-        // Função para salvar a carta
-        function saveLetter() {
-            // Coletar conteúdo de todos os textareas
-            const textareas = document.querySelectorAll('.text-container textarea');
-            let letterContent = '';
-            
-            textareas.forEach((textarea, index) => {
-                if (textarea.value.trim() !== '') {
-                    letterContent += textarea.value + '\n\n';
-                }
-            });
-            
-            if (letterContent.trim() === '') {
-                alert('A carta está vazia. Escreva algo antes de salvar.');
-                return;
-            }
-            
-            // Criar um blob com o conteúdo
-            const blob = new Blob([letterContent], { type: 'text/plain' });
-            
-            // Criar um link para download
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'minha_carta.txt';
-            link.click();
-            
-            // Mostrar notificação
-            const notification = document.getElementById('notification');
-            notification.style.display = 'block';
-            
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
-        
-        // Função para imprimir a carta
-        function printLetter() {
-            // Coletar conteúdo de todos os textareas
-            const textareas = document.querySelectorAll('.text-container textarea');
-            let letterContent = '';
-            
-            textareas.forEach((textarea, index) => {
-                if (textarea.value.trim() !== '') {
-                    letterContent += textarea.value + '\n\n';
-                }
-            });
-            
-            if (letterContent.trim() === '') {
-                alert('A carta está vazia. Escreva algo antes de imprimir.');
-                return;
-            }
-            
-            // Abrir janela de impressão
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>Minha Carta</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
-                            h1 { color: #8a2be2; }
-                            .letter-content { white-space: pre-line; margin-top: 20px; }
-                            @media print {
-                                body { padding: 0; }
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <h1>Minha Carta</h1>
-                        <div class="letter-content">${letterContent}</div>
-                        <script>
-                            window.onload = function() { window.print(); };
-                        <\/script>
-                    </body>
-                </html>
-            `);
-            printWindow.document.close();
-        }
-        
-        // Função para voltar à tela de login
-        function goBackToLogin() {
-            document.getElementById('letterScreen').style.display = 'none';
-            document.getElementById('loginScreen').style.display = 'block';
-            document.getElementById('loginScreen').classList.add('fade-in');
-            
-            // Limpar campos de senha
-            document.getElementById('day').value = '';
-            document.getElementById('month').value = '';
-            document.getElementById('year').value = '';
-            document.getElementById('day').focus();
         }
     </script>
 </body>
