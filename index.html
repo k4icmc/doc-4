@@ -1,1 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset e configurações básicas */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
+        body {
+            background-color: #0a001a;
+            color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Área de partículas (estrelas) */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Container principal */
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        /* Tela de login/senha */
+        .login-screen {
+            background: linear-gradient(145deg, rgba(58, 0, 97, 0.9), rgba(30, 0, 50, 0.9));
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .login-screen h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #c770ff;
+            text-shadow: 0 0 10px #8a2be2;
+            letter-spacing: 1px;
+        }
+
+        .login-screen p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #d4b3ff;
+        }
+
+        .password-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .password-input {
+            display: flex;
+            border: 2px solid #8a2be2;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: rgba(20, 0, 40, 0.8);
+        }
+
+        .password-input input {
+            width: 70px;
+            height: 60px;
+            text-align: center;
+            font-size: 1.8rem;
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            outline: none;
+        }
+
+        .password-input .separator {
+            width: 30px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #8a2be2;
+            font-weight: bold;
+        }
+
+        .submit-btn {
+            background: linear-gradient(to right, #8a2be2, #c770ff);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.7);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.9);
+        }
+
+        .error-message {
+            color: #ff4d8d;
+            margin-top: 15px;
+            font-size: 1rem;
+            min-height: 24px;
+            text-shadow: 0 0 5px rgba(255, 77, 141, 0.7);
+        }
+
+        /* Tela da carta (inicialmente oculta) */
+        .letter-screen {
+            display: none;
+            background: linear-gradient(145deg, rgba(58, 0, 97, 0.9), rgba(30, 0, 50, 0.9));
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.5);
+        }
+
+        .letter-header h1 {
+            font-size: 2.5rem;
+            color: #c770ff;
+            text-shadow: 0 0 10px #8a2be2;
+            margin-bottom: 10px;
+        }
+
+        .letter-date {
+            font-size: 1.1rem;
+            color: #d4b3ff;
+            font-style: italic;
+        }
+
+        /* Containers de texto da carta */
+        .letter-container {
+            margin-bottom: 40px;
+        }
+
+        .letter-section {
+            margin-bottom: 30px;
+        }
+
+        .letter-section h2 {
+            font-size: 1.5rem;
+            color: #c770ff;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 3px solid #8a2be2;
+        }
+
+        .text-container {
+            background-color: rgba(20, 0, 40, 0.6);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 150px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .text-container:focus-within {
+            border-color: #8a2be2;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        }
+
+        .text-container textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            color: #f0f0f0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+
+        .text-container textarea::placeholder {
+            color: rgba(212, 179, 255, 0.6);
+        }
+
+        .container-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #d4b3ff;
+            font-size: 1.1rem;
+        }
+
+        /* Botões de ação */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .action-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .save-btn {
+            background: linear-gradient(to right, #8a2be2, #c770ff);
+            color: white;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.7);
+        }
+
+        .print-btn {
+            background: linear-gradient(to right, #4b0082, #8a2be2);
+            color: white;
+            box-shadow: 0 0 15px rgba(75, 0, 130, 0.7);
+        }
+
+        .back-btn {
+            background: linear-gradient(to right, #4a004a, #8b008b);
+            color: white;
+            box-shadow: 0 0 15px rgba(139, 0, 139, 0.7);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.9);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+            
+            .login-screen h1 {
+                font-size: 2rem;
+            }
+            
+            .letter-header h1 {
+                font-size: 2rem;
+            }
+            
+            .password-input input {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .password-input .separator {
+                width: 25px;
+                height: 50px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-screen, .letter-screen {
+                padding: 25px 20px;
+            }
+            
+            .login-screen h1 {
+                font-size: 1.8rem;
+            }
+            
+            .letter-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .password-input input {
+                width: 40px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+            
+            .password-input .separator {
+                width: 20px;
+                height: 45px;
+            }
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Estilo para o placeholder quando estiver vazio */
+        .text-container:empty:before {
+            content: attr(data-placeholder);
+            color: rgba(212, 179, 255, 0.6);
+        }
+
+        /* Notificação de salvamento */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(to right, #8a2be2, #c770ff);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.8);
+            z-index: 1000;
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Área de partículas -->
+    <div id="particles-js"></div>
+    
+    <div class="container">
+        <!-- Tela de login/senha -->
+        <div class="login-screen fade-in" id="loginScreen">
+            <h1><i class="fas fa-lock"></i> Carta Digital</h1>
+            <p>Para acessar esta carta, insira a data especial (DD/MM/AAAA)</p>
+            
+            <div class="password-container">
+                <div class="password-input">
+                    <input type="text" id="day" maxlength="2" placeholder="DD" autocomplete="off">
+                    <div class="separator">/</div>
+                    <input type="text" id="month" maxlength="2" placeholder="MM" autocomplete="off">
+                    <div class="separator">/</div>
+                    <input type="text" id="year" maxlength="4" placeholder="AAAA" autocomplete="off">
+                </div>
+            </div>
+            
+            <button class="submit-btn" id="submitBtn">
+                <i class="fas fa-paper-plane"></i> Acessar Carta
+            </button>
+            
+            <div class="error-message" id="errorMessage"></div>
+        </div>
+        
+        <!-- Tela da carta (inicialmente oculta) -->
+        <div class="letter-screen" id="letterScreen">
+            <div class="letter-header">
+                <h1><i class="fas fa-heart"></i> Minha Carta</h1>
+                <div class="letter-date" id="currentDate"></div>
+            </div>
+            
+            <div class="letter-container">
+                <div class="letter-section">
+                    <h2><i class="fas fa-star"></i> Introdução</h2>
+                    <div class="text-container">
+                        <label class="container-label">Comece sua carta com uma saudação:</label>
+                        <textarea placeholder="Escreva aqui a introdução da sua carta..." rows="4"></textarea>
+                    </div>
+                </div>
+                
+                <div class="letter-section">
+                    <h2><i class="fas fa-comment"></i> Mensagem Principal</h2>
+                    <div class="text-container">
+                        <label class="container-label">Expresse seus sentimentos e pensamentos:</label>
+                        <textarea placeholder="Escreva aqui o corpo principal da sua carta..." rows="6"></textarea>
+                    </div>
+                </div>
+                
+                <div class="letter-section">
+                    <h2><i class="fas fa-heartbeat"></i> Reflexões Pessoais</h2>
+                    <div class="text-container">
+                        <label class="container-label">Compartilhe suas reflexões mais íntimas:</label>
+                        <textarea placeholder="Escreva aqui suas reflexões pessoais..." rows="5"></textarea>
+                    </div>
+                </div>
+                
+                <div class="letter-section">
+                    <h2><i class="fas fa-flag-checkered"></i> Conclusão</h2>
+                    <div class="text-container">
+                        <label class="container-label">Finalize sua carta com uma despedida:</label>
+                        <textarea placeholder="Escreva aqui a conclusão da sua carta..." rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="action-btn save-btn" id="saveBtn">
+                    <i class="fas fa-save"></i> Salvar Carta
+                </button>
+                <button class="action-btn print-btn" id="printBtn">
+                    <i class="fas fa-print"></i> Imprimir Carta
+                </button>
+                <button class="action-btn back-btn" id="backBtn">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notificação de salvamento -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> Carta salva com sucesso!
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Configuração das partículas (estrelas)
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS("particles-js", {
+                particles: {
+                    number: { value: 150, density: { enable: true, value_area: 800 } },
+                    color: { value: "#8a2be2" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: { enable: false },
+                    move: { enable: true, speed: 1, direction: "none", random: true }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: { enable: true, mode: "repulse" },
+                        onclick: { enable: true, mode: "push" }
+                    }
+                }
+            });
+            
+            // Configurar data atual
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('pt-BR', options);
+            
+            // Auto-foco no primeiro campo de data
+            document.getElementById('day').focus();
+            
+            // Auto-avanço entre campos de data
+            document.getElementById('day').addEventListener('input', function() {
+                if (this.value.length >= 2) {
+                    document.getElementById('month').focus();
+                }
+            });
+            
+            document.getElementById('month').addEventListener('input', function() {
+                if (this.value.length >= 2) {
+                    document.getElementById('year').focus();
+                }
+            });
+            
+            // Validação da senha (data)
+            document.getElementById('submitBtn').addEventListener('click', validatePassword);
+            
+            // Permitir Enter para enviar
+            document.getElementById('year').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    validatePassword();
+                }
+            });
+            
+            // Botões de ação
+            document.getElementById('saveBtn').addEventListener('click', saveLetter);
+            document.getElementById('printBtn').addEventListener('click', printLetter);
+            document.getElementById('backBtn').addEventListener('click', goBackToLogin);
+        });
+        
+        // Função para validar a senha (data)
+        function validatePassword() {
+            const day = document.getElementById('day').value;
+            const month = document.getElementById('month').value;
+            const year = document.getElementById('year').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Verificar se a data corresponde a 01/06/2023
+            if (day === '01' && month === '06' && year === '2023') {
+                // Esconder tela de login e mostrar a carta
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('letterScreen').style.display = 'block';
+                document.getElementById('letterScreen').classList.add('fade-in');
+                errorMessage.textContent = '';
+            } else {
+                errorMessage.textContent = 'Data incorreta. Tente novamente.';
+                // Efeito de shake nos campos
+                const inputs = document.querySelectorAll('.password-input input');
+                inputs.forEach(input => {
+                    input.style.border = '2px solid #ff4d8d';
+                    setTimeout(() => {
+                        input.style.border = '';
+                    }, 500);
+                });
+                
+                // Animar o erro
+                errorMessage.style.animation = 'none';
+                setTimeout(() => {
+                    errorMessage.style.animation = 'fadeIn 0.5s ease-out';
+                }, 10);
+            }
+        }
+        
+        // Função para salvar a carta
+        function saveLetter() {
+            // Coletar conteúdo de todos os textareas
+            const textareas = document.querySelectorAll('.text-container textarea');
+            let letterContent = '';
+            
+            textareas.forEach((textarea, index) => {
+                if (textarea.value.trim() !== '') {
+                    letterContent += textarea.value + '\n\n';
+                }
+            });
+            
+            if (letterContent.trim() === '') {
+                alert('A carta está vazia. Escreva algo antes de salvar.');
+                return;
+            }
+            
+            // Criar um blob com o conteúdo
+            const blob = new Blob([letterContent], { type: 'text/plain' });
+            
+            // Criar um link para download
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'minha_carta.txt';
+            link.click();
+            
+            // Mostrar notificação
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Função para imprimir a carta
+        function printLetter() {
+            // Coletar conteúdo de todos os textareas
+            const textareas = document.querySelectorAll('.text-container textarea');
+            let letterContent = '';
+            
+            textareas.forEach((textarea, index) => {
+                if (textarea.value.trim() !== '') {
+                    letterContent += textarea.value + '\n\n';
+                }
+            });
+            
+            if (letterContent.trim() === '') {
+                alert('A carta está vazia. Escreva algo antes de imprimir.');
+                return;
+            }
+            
+            // Abrir janela de impressão
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Minha Carta</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
+                            h1 { color: #8a2be2; }
+                            .letter-content { white-space: pre-line; margin-top: 20px; }
+                            @media print {
+                                body { padding: 0; }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Minha Carta</h1>
+                        <div class="letter-content">${letterContent}</div>
+                        <script>
+                            window.onload = function() { window.print(); };
+                        <\/script>
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+        
+        // Função para voltar à tela de login
+        function goBackToLogin() {
+            document.getElementById('letterScreen').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('loginScreen').classList.add('fade-in');
+            
+            // Limpar campos de senha
+            document.getElementById('day').value = '';
+            document.getElementById('month').value = '';
+            document.getElementById('year').value = '';
+            document.getElementById('day').focus();
+        }
+    </script>
+</body>
+</html>
