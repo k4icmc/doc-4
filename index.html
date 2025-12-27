@@ -159,7 +159,7 @@
             backdrop-filter: blur(5px);
         }
 
-        /* Containers de texto da carta */
+        /* Containers de texto da carta (SOMENTE LEITURA) */
         .letter-container {
             margin-bottom: 40px;
         }
@@ -180,38 +180,63 @@
             background-color: rgba(20, 0, 40, 0.6);
             border: 1px solid rgba(138, 43, 226, 0.4);
             border-radius: 10px;
-            padding: 20px;
-            min-height: 150px;
-            margin-bottom: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .text-container:focus-within {
-            border-color: #8a2be2;
-            box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        /* Indicador de somente leitura */
+        .read-only-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(138, 43, 226, 0.3);
+            color: #d4b3ff;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid rgba(138, 43, 226, 0.5);
         }
 
-        .text-container textarea {
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            border: none;
+        /* Conteúdo da carta (texto fixo) */
+        .letter-content {
             color: #f0f0f0;
             font-size: 1.1rem;
-            line-height: 1.6;
-            resize: none;
-            outline: none;
+            line-height: 1.7;
+            white-space: pre-line;
+            margin-top: 10px;
+            padding-right: 30px;
         }
 
-        .text-container textarea::placeholder {
-            color: rgba(212, 179, 255, 0.6);
+        .letter-content p {
+            margin-bottom: 15px;
+        }
+
+        .letter-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Estilo para títulos das seções dentro do conteúdo */
+        .content-title {
+            color: #c770ff;
+            font-weight: bold;
+            margin: 15px 0 10px 0;
+            font-size: 1.2rem;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+            padding-bottom: 5px;
         }
 
         .container-label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: #d4b3ff;
             font-size: 1.1rem;
+            font-weight: 600;
         }
 
         /* Responsividade */
@@ -234,6 +259,23 @@
             .separator {
                 width: 25px;
                 font-size: 1.8rem;
+            }
+            
+            .letter-content {
+                font-size: 1.05rem;
+                padding-right: 0;
+            }
+            
+            .text-container {
+                padding: 20px 15px;
+            }
+            
+            .read-only-indicator {
+                position: relative;
+                top: 0;
+                right: 0;
+                display: inline-block;
+                margin-bottom: 10px;
             }
         }
 
@@ -260,6 +302,15 @@
             .submit-btn {
                 padding: 12px 30px;
                 font-size: 1.1rem;
+            }
+            
+            .letter-content {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+            
+            .letter-section h2 {
+                font-size: 1.3rem;
             }
         }
 
@@ -293,6 +344,16 @@
             margin-top: 20px;
             font-style: italic;
             opacity: 0.8;
+        }
+
+        /* Animação para aparecimento do texto */
+        @keyframes typewriter {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .letter-content p {
+            animation: typewriter 0.8s ease-out;
         }
     </style>
 </head>
@@ -328,38 +389,77 @@
         <!-- Tela da carta (inicialmente oculta) -->
         <div class="letter-screen" id="letterScreen">
             <div class="letter-container">
+                <!-- Saudação inicial -->
                 <div class="letter-section">
                     <div class="text-container">
+                        <div class="read-only-indicator">
+                            <i class="fas fa-eye"></i> Somente leitura
+                        </div>
                         <label class="container-label">Saudação inicial:</label>
-                        <textarea placeholder="Querida pessoa especial..." rows="4"></textarea>
+                        <div class="letter-content">
+                            <p>Meu amor,</p>
+                            <p>Escrevo estas palavras com o coração transbordando de sentimentos que, por vezes, são difíceis de expressar em simples frases. Há tanto dentro de mim que precisa ser dito, tanto que guardei em silêncio, esperando o momento certo para compartilhar.</p>
+                        </div>
                     </div>
                 </div>
                 
+                <!-- O que sinto por você -->
                 <div class="letter-section">
                     <div class="text-container">
+                        <div class="read-only-indicator">
+                            <i class="fas fa-eye"></i> Somente leitura
+                        </div>
                         <label class="container-label">O que sinto por você:</label>
-                        <textarea placeholder="Escreva aqui seus sentimentos mais profundos..." rows="6"></textarea>
+                        <div class="letter-content">
+                            <div class="content-title">Meus Sentimentos</div>
+                            <p>Desde que você entrou na minha vida, tudo ganhou novas cores. Os dias se tornaram mais brilhantes e as noites, menos solitárias. Seu sorriso é o primeiro pensamento que tenho ao acordar e o último antes de dormir.</p>
+                            <p>O que sinto por você vai além do que palavras podem descrever. É uma mistura de admiração, respeito, carinho e um amor que cresce a cada dia. Você me faz querer ser uma pessoa melhor, me inspira a alcançar meus sonhos e me dá forças nos momentos difíceis.</p>
+                        </div>
                     </div>
                 </div>
                 
+                <!-- Memórias especiais -->
                 <div class="letter-section">
                     <div class="text-container">
+                        <div class="read-only-indicator">
+                            <i class="fas fa-eye"></i> Somente leitura
+                        </div>
                         <label class="container-label">Memórias especiais:</label>
-                        <textarea placeholder="Lembro-me daquele dia especial quando..." rows="5"></textarea>
+                        <div class="letter-content">
+                            <div class="content-title">Momentos Inesquecíveis</div>
+                            <p>Lembro-me perfeitamente da primeira vez que nossos olhares se cruzaram. Havia algo mágico naquele momento, como se o universo estivesse nos alinhando. Desde então, cada momento ao seu lado se tornou uma memória preciosa.</p>
+                            <p>Aquele passeio no parque sob a chuva suave, as conversas até tarde da noite sobre nossos sonhos e medos, o silêncio confortável quando apenas estar juntos era suficiente... Cada um desses momentos está guardado no meu coração.</p>
+                            <p>O dia 01/06/2023 ficará para sempre marcado em minha memória como um dos mais especiais que já vivi ao seu lado.</p>
+                        </div>
                     </div>
                 </div>
                 
+                <!-- Mensagem final -->
                 <div class="letter-section">
                     <div class="text-container">
+                        <div class="read-only-indicator">
+                            <i class="fas fa-eye"></i> Somente leitura
+                        </div>
                         <label class="container-label">Mensagem final:</label>
-                        <textarea placeholder="Com todo meu carinho e amor..." rows="4"></textarea>
+                        <div class="letter-content">
+                            <p>Quero que saiba que, independentemente do que a vida nos reservar, meu sentimento por você permanecerá verdadeiro e constante. Você é a pessoa mais especial que já conheci, e sou imensamente grato(a) por ter você em minha vida.</p>
+                            <p>Que possamos continuar escrevendo nossa história juntos, criando novas memórias e fortalecendo esse laço que nos une.</p>
+                        </div>
                     </div>
                 </div>
                 
+                <!-- Assinatura -->
                 <div class="letter-section">
                     <div class="text-container">
+                        <div class="read-only-indicator">
+                            <i class="fas fa-eye"></i> Somente leitura
+                        </div>
                         <label class="container-label">Assinatura:</label>
-                        <textarea placeholder="Com amor, [seu nome]" rows="2"></textarea>
+                        <div class="letter-content">
+                            <p>Com todo o meu amor e carinho,</p>
+                            <p style="font-style: italic; margin-top: 10px;">Para sempre seu(sua),<br>
+                            <span style="color: #c770ff; font-weight: bold;">[Seu Nome]</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -503,10 +603,11 @@
                 document.getElementById('letterScreen').classList.add('fade-in');
                 errorMessage.textContent = '';
                 
-                // Focar no primeiro textarea após um breve delay
-                setTimeout(() => {
-                    document.querySelector('.text-container textarea').focus();
-                }, 300);
+                // Adicionar animação de digitação ao conteúdo
+                const letterContents = document.querySelectorAll('.letter-content');
+                letterContents.forEach((content, index) => {
+                    content.style.animationDelay = `${index * 0.2}s`;
+                });
             } else {
                 errorMessage.textContent = 'Data incorreta. Tente novamente.';
                 
