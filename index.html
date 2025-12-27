@@ -72,17 +72,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
+            gap: 5px;
             margin-bottom: 30px;
         }
 
         .password-input {
             display: flex;
-            border: 2px solid #8a2be2;
-            border-radius: 10px;
-            overflow: hidden;
-            background-color: rgba(20, 0, 40, 0.8);
+            align-items: center;
+            justify-content: center;
         }
 
         .password-input input {
@@ -90,27 +87,37 @@
             height: 60px;
             text-align: center;
             font-size: 1.8rem;
-            background-color: transparent;
-            border: none;
+            background-color: rgba(20, 0, 40, 0.8);
+            border: 2px solid transparent;
+            border-radius: 10px;
             color: #fff;
             outline: none;
+            transition: all 0.3s ease;
             /* Forçar teclado numérico */
             inputmode: numeric;
+        }
+
+        .password-input input:focus {
+            border-color: #8a2be2;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.7);
         }
 
         .password-input input::placeholder {
             color: rgba(212, 179, 255, 0.4);
         }
 
-        .password-input .separator {
-            width: 30px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .separator {
             font-size: 2rem;
             color: #8a2be2;
             font-weight: bold;
+            width: 30px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .separator.visible {
+            opacity: 1;
         }
 
         .submit-btn {
@@ -150,26 +157,6 @@
             box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
             border: 1px solid rgba(138, 43, 226, 0.3);
             backdrop-filter: blur(5px);
-        }
-
-        .letter-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(138, 43, 226, 0.5);
-        }
-
-        .letter-header h1 {
-            font-size: 2.5rem;
-            color: #c770ff;
-            text-shadow: 0 0 10px #8a2be2;
-            margin-bottom: 10px;
-        }
-
-        .letter-date {
-            font-size: 1.1rem;
-            color: #d4b3ff;
-            font-style: italic;
         }
 
         /* Containers de texto da carta */
@@ -238,19 +225,15 @@
                 font-size: 2rem;
             }
             
-            .letter-header h1 {
-                font-size: 2rem;
-            }
-            
             .password-input input {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
+                width: 60px;
+                height: 55px;
+                font-size: 1.6rem;
             }
             
-            .password-input .separator {
+            .separator {
                 width: 25px;
-                height: 50px;
+                font-size: 1.8rem;
             }
         }
 
@@ -263,19 +246,33 @@
                 font-size: 1.8rem;
             }
             
-            .letter-header h1 {
-                font-size: 1.8rem;
+            .password-input input {
+                width: 50px;
+                height: 50px;
+                font-size: 1.4rem;
             }
             
+            .separator {
+                width: 20px;
+                font-size: 1.6rem;
+            }
+            
+            .submit-btn {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 360px) {
             .password-input input {
-                width: 40px;
+                width: 45px;
                 height: 45px;
                 font-size: 1.3rem;
             }
             
-            .password-input .separator {
-                width: 20px;
-                height: 45px;
+            .separator {
+                width: 15px;
+                font-size: 1.5rem;
             }
         }
 
@@ -289,66 +286,13 @@
             animation: fadeIn 0.8s ease-out;
         }
 
-        /* Estilo para inputs numéricos */
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
-
-        /* Teclado numérico personalizado */
-        .numeric-keyboard {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            max-width: 300px;
-            margin: 20px auto;
-        }
-
-        .numeric-key {
-            background: linear-gradient(to bottom, #4a004a, #2a002a);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.5rem;
-            height: 60px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .numeric-key:hover {
-            background: linear-gradient(to bottom, #5a005a, #3a003a);
-            transform: translateY(-2px);
-        }
-
-        .numeric-key:active {
-            transform: translateY(1px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .key-delete {
-            background: linear-gradient(to bottom, #8a2be2, #6a1bc2);
-            grid-column: span 3;
-            margin-top: 10px;
-        }
-
-        .key-delete:hover {
-            background: linear-gradient(to bottom, #9a3bf2, #7a2bd2);
-        }
-
-        .numeric-instruction {
+        /* Instrução para teclado numérico */
+        .keyboard-note {
             font-size: 0.9rem;
             color: #d4b3ff;
-            margin-top: 15px;
+            margin-top: 20px;
             font-style: italic;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -360,42 +304,25 @@
         <!-- Tela de login/senha -->
         <div class="login-screen fade-in" id="loginScreen">
             <h1><i class="fas fa-lock"></i> Carta Digital</h1>
-            <p>Para acessar esta carta, insira a data especial (DD/MM/AAAA)</p>
+            <p>Para acessar esta carta, insira a data especial</p>
             
             <div class="password-container">
                 <div class="password-input">
-                    <input type="text" id="day" maxlength="2" placeholder="DD" autocomplete="off" pattern="\d*" inputmode="numeric">
-                    <div class="separator">/</div>
-                    <input type="text" id="month" maxlength="2" placeholder="MM" autocomplete="off" pattern="\d*" inputmode="numeric">
-                    <div class="separator">/</div>
-                    <input type="text" id="year" maxlength="4" placeholder="AAAA" autocomplete="off" pattern="\d*" inputmode="numeric">
+                    <input type="text" id="day" maxlength="2" placeholder="DD" autocomplete="off" inputmode="numeric">
+                    <div class="separator" id="sep1">/</div>
+                    <input type="text" id="month" maxlength="2" placeholder="MM" autocomplete="off" inputmode="numeric">
+                    <div class="separator" id="sep2">/</div>
+                    <input type="text" id="year" maxlength="4" placeholder="AAAA" autocomplete="off" inputmode="numeric">
                 </div>
             </div>
             
-            <p class="numeric-instruction">Use o teclado numérico do seu dispositivo</p>
+            <p class="keyboard-note">Use o teclado numérico do seu dispositivo</p>
             
             <button class="submit-btn" id="submitBtn">
                 <i class="fas fa-paper-plane"></i> Acessar Carta
             </button>
             
             <div class="error-message" id="errorMessage"></div>
-            
-            <!-- Teclado numérico opcional para dispositivos touch -->
-            <div class="numeric-keyboard" id="numericKeyboard">
-                <div class="numeric-key" data-value="1">1</div>
-                <div class="numeric-key" data-value="2">2</div>
-                <div class="numeric-key" data-value="3">3</div>
-                <div class="numeric-key" data-value="4">4</div>
-                <div class="numeric-key" data-value="5">5</div>
-                <div class="numeric-key" data-value="6">6</div>
-                <div class="numeric-key" data-value="7">7</div>
-                <div class="numeric-key" data-value="8">8</div>
-                <div class="numeric-key" data-value="9">9</div>
-                <div class="numeric-key" data-value="0">0</div>
-                <div class="numeric-key key-delete" id="keyDelete">
-                    <i class="fas fa-backspace"></i> Apagar
-                </div>
-            </div>
         </div>
         
         <!-- Tela da carta (inicialmente oculta) -->
@@ -462,14 +389,8 @@
                 }
             });
             
-            // Auto-foco no primeiro campo de data
-            document.getElementById('day').focus();
-            
-            // Configurar inputs para aceitar apenas números
-            setupNumericInputs();
-            
-            // Configurar teclado numérico virtual
-            setupVirtualKeyboard();
+            // Configurar campos de data
+            setupDateInputs();
             
             // Validação da senha (data)
             document.getElementById('submitBtn').addEventListener('click', validatePassword);
@@ -480,124 +401,73 @@
                     validatePassword();
                 }
             });
+            
+            // Focar no primeiro campo ao carregar a página
+            setTimeout(() => {
+                document.getElementById('day').focus();
+            }, 300);
         });
         
-        // Configurar inputs para aceitar apenas números
-        function setupNumericInputs() {
-            const inputs = document.querySelectorAll('#day, #month, #year');
+        // Configurar campos de data
+        function setupDateInputs() {
+            const dayInput = document.getElementById('day');
+            const monthInput = document.getElementById('month');
+            const yearInput = document.getElementById('year');
+            const sep1 = document.getElementById('sep1');
+            const sep2 = document.getElementById('sep2');
             
-            inputs.forEach(input => {
-                // Impedir entrada de caracteres não numéricos
-                input.addEventListener('input', function() {
+            // Permitir apenas números
+            [dayInput, monthInput, yearInput].forEach(input => {
+                input.addEventListener('input', function(e) {
+                    // Remover caracteres não numéricos
                     this.value = this.value.replace(/\D/g, '');
+                    
+                    // Mostrar barras quando houver conteúdo
+                    updateSeparators();
                     
                     // Auto-avanço entre campos
                     if (this.value.length >= this.maxLength) {
-                        const nextInput = this.nextElementSibling?.nextElementSibling;
-                        if (nextInput && nextInput.tagName === 'INPUT') {
-                            nextInput.focus();
+                        if (this === dayInput) {
+                            monthInput.focus();
+                        } else if (this === monthInput) {
+                            yearInput.focus();
                         }
                     }
                 });
                 
-                // Permitir navegação com setas e delete
+                // Tratar tecla Backspace
                 input.addEventListener('keydown', function(e) {
-                    // Se for backspace e o campo estiver vazio, voltar para o campo anterior
                     if (e.key === 'Backspace' && this.value === '') {
-                        const prevInput = this.previousElementSibling?.previousElementSibling;
-                        if (prevInput && prevInput.tagName === 'INPUT') {
-                            prevInput.focus();
-                        }
-                    }
-                    
-                    // Permitir setas para navegar entre campos
-                    if (e.key === 'ArrowLeft' && this.selectionStart === 0) {
-                        const prevInput = this.previousElementSibling?.previousElementSibling;
-                        if (prevInput && prevInput.tagName === 'INPUT') {
-                            prevInput.focus();
-                            e.preventDefault();
-                        }
-                    }
-                    
-                    if (e.key === 'ArrowRight' && this.selectionStart === this.value.length) {
-                        const nextInput = this.nextElementSibling?.nextElementSibling;
-                        if (nextInput && nextInput.tagName === 'INPUT') {
-                            nextInput.focus();
-                            e.preventDefault();
+                        if (this === monthInput) {
+                            dayInput.focus();
+                        } else if (this === yearInput) {
+                            monthInput.focus();
                         }
                     }
                 });
-            });
-        }
-        
-        // Configurar teclado numérico virtual
-        function setupVirtualKeyboard() {
-            const numericKeys = document.querySelectorAll('.numeric-key[data-value]');
-            const deleteKey = document.getElementById('keyDelete');
-            let activeInput = document.getElementById('day');
-            
-            // Manter controle do input ativo
-            document.querySelectorAll('#day, #month, #year').forEach(input => {
+                
+                // Mostrar barras ao focar no campo
                 input.addEventListener('focus', function() {
-                    activeInput = this;
+                    updateSeparators();
                 });
             });
             
-            // Adicionar eventos aos botões numéricos
-            numericKeys.forEach(key => {
-                key.addEventListener('click', function() {
-                    const value = this.getAttribute('data-value');
-                    
-                    if (activeInput) {
-                        // Se o campo já tiver o número máximo de caracteres, não adicionar mais
-                        if (activeInput.value.length >= activeInput.maxLength) {
-                            // Tentar ir para o próximo campo
-                            const nextInput = activeInput.nextElementSibling?.nextElementSibling;
-                            if (nextInput && nextInput.tagName === 'INPUT') {
-                                nextInput.focus();
-                                activeInput = nextInput;
-                            } else {
-                                return; // Não há próximo campo, não fazer nada
-                            }
-                        }
-                        
-                        // Adicionar o valor
-                        activeInput.value += value;
-                        
-                        // Se atingiu o tamanho máximo, ir para o próximo campo
-                        if (activeInput.value.length >= activeInput.maxLength) {
-                            const nextInput = activeInput.nextElementSibling?.nextElementSibling;
-                            if (nextInput && nextInput.tagName === 'INPUT') {
-                                nextInput.focus();
-                                activeInput = nextInput;
-                            }
-                        }
-                        
-                        // Disparar evento de input para validação
-                        activeInput.dispatchEvent(new Event('input'));
-                    }
-                });
-            });
-            
-            // Configurar botão de apagar
-            deleteKey.addEventListener('click', function() {
-                if (activeInput) {
-                    // Se o campo está vazio, voltar para o campo anterior
-                    if (activeInput.value === '') {
-                        const prevInput = activeInput.previousElementSibling?.previousElementSibling;
-                        if (prevInput && prevInput.tagName === 'INPUT') {
-                            prevInput.focus();
-                            activeInput = prevInput;
-                        }
-                    }
-                    
-                    // Apagar o último caractere
-                    activeInput.value = activeInput.value.slice(0, -1);
-                    
-                    // Disparar evento de input para validação
-                    activeInput.dispatchEvent(new Event('input'));
+            // Função para atualizar visibilidade das barras
+            function updateSeparators() {
+                // Mostrar primeira barra se o dia tiver algum conteúdo
+                if (dayInput.value.length > 0) {
+                    sep1.classList.add('visible');
+                } else {
+                    sep1.classList.remove('visible');
                 }
-            });
+                
+                // Mostrar segunda barra se o mês tiver algum conteúdo
+                if (monthInput.value.length > 0) {
+                    sep2.classList.add('visible');
+                } else {
+                    sep2.classList.remove('visible');
+                }
+            }
         }
         
         // Função para validar a senha (data)
@@ -610,6 +480,18 @@
             // Verificar se todos os campos foram preenchidos
             if (!day || !month || !year) {
                 errorMessage.textContent = 'Por favor, preencha todos os campos.';
+                
+                // Piscar campos vazios
+                if (!day) document.getElementById('day').style.borderColor = '#ff4d8d';
+                if (!month) document.getElementById('month').style.borderColor = '#ff4d8d';
+                if (!year) document.getElementById('year').style.borderColor = '#ff4d8d';
+                
+                setTimeout(() => {
+                    document.getElementById('day').style.borderColor = '';
+                    document.getElementById('month').style.borderColor = '';
+                    document.getElementById('year').style.borderColor = '';
+                }, 1000);
+                
                 return;
             }
             
@@ -621,29 +503,45 @@
                 document.getElementById('letterScreen').classList.add('fade-in');
                 errorMessage.textContent = '';
                 
-                // Focar no primeiro textarea
-                document.querySelector('.text-container textarea').focus();
+                // Focar no primeiro textarea após um breve delay
+                setTimeout(() => {
+                    document.querySelector('.text-container textarea').focus();
+                }, 300);
             } else {
                 errorMessage.textContent = 'Data incorreta. Tente novamente.';
                 
                 // Efeito de shake nos campos
                 const inputs = document.querySelectorAll('.password-input input');
                 inputs.forEach(input => {
-                    input.style.border = '2px solid #ff4d8d';
+                    input.style.transform = 'translateX(0)';
+                    void input.offsetWidth; // Trigger reflow
+                    
+                    // Animar shake
+                    input.style.animation = 'shake 0.5s ease-in-out';
                     setTimeout(() => {
-                        input.style.border = '';
+                        input.style.animation = '';
                     }, 500);
                 });
                 
                 // Animar o erro
                 errorMessage.style.animation = 'none';
-                setTimeout(() => {
-                    errorMessage.style.animation = 'fadeIn 0.5s ease-out';
-                }, 10);
+                void errorMessage.offsetWidth;
+                errorMessage.style.animation = 'fadeIn 0.5s ease-out';
                 
                 // Focar no primeiro campo e selecionar todo o texto
                 document.getElementById('day').focus();
                 document.getElementById('day').select();
+                
+                // Adicionar animação de shake
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes shake {
+                        0%, 100% { transform: translateX(0); }
+                        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                        20%, 40%, 60%, 80% { transform: translateX(5px); }
+                    }
+                `;
+                document.head.appendChild(style);
             }
         }
     </script>
