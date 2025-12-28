@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carta Digital</title>
+    <title>Carta para Você</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Reset e configurações básicas */
@@ -93,7 +93,6 @@
             color: #fff;
             outline: none;
             transition: all 0.3s ease;
-            /* Forçar teclado numérico */
             inputmode: numeric;
         }
 
@@ -148,7 +147,6 @@
             text-shadow: 0 0 5px rgba(255, 77, 141, 0.7);
         }
 
-        /* Tela da carta (inicialmente oculta) */
         .letter-screen {
             display: none;
             background: linear-gradient(145deg, rgba(58, 0, 97, 0.9), rgba(30, 0, 50, 0.9));
@@ -159,7 +157,6 @@
             backdrop-filter: blur(5px);
         }
 
-        /* Containers de texto da carta (SOMENTE LEITURA) */
         .letter-container {
             margin-bottom: 40px;
         }
@@ -187,7 +184,6 @@
             overflow: hidden;
         }
 
-        /* Indicador de somente leitura */
         .read-only-indicator {
             position: absolute;
             top: 10px;
@@ -203,7 +199,6 @@
             border: 1px solid rgba(138, 43, 226, 0.5);
         }
 
-        /* Conteúdo da carta (texto fixo) */
         .letter-content {
             color: #f0f0f0;
             font-size: 1.1rem;
@@ -217,11 +212,6 @@
             margin-bottom: 15px;
         }
 
-        .letter-content p:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Estilo para títulos das seções dentro do conteúdo */
         .content-title {
             color: #c770ff;
             font-weight: bold;
@@ -239,95 +229,13 @@
             font-weight: 600;
         }
 
-        /* Responsividade */
         @media (max-width: 768px) {
-            .container {
-                width: 95%;
-                padding: 10px;
-            }
-            
-            .login-screen h1 {
-                font-size: 2rem;
-            }
-            
-            .password-input input {
-                width: 60px;
-                height: 55px;
-                font-size: 1.6rem;
-            }
-            
-            .separator {
-                width: 25px;
-                font-size: 1.8rem;
-            }
-            
-            .letter-content {
-                font-size: 1.05rem;
-                padding-right: 0;
-            }
-            
-            .text-container {
-                padding: 20px 15px;
-            }
-            
-            .read-only-indicator {
-                position: relative;
-                top: 0;
-                right: 0;
-                display: inline-block;
-                margin-bottom: 10px;
-            }
+            .container { width: 95%; padding: 10px; }
+            .login-screen h1 { font-size: 2rem; }
+            .password-input input { width: 60px; height: 55px; font-size: 1.6rem; }
+            .letter-content { font-size: 1.05rem; padding-right: 0; }
         }
 
-        @media (max-width: 480px) {
-            .login-screen, .letter-screen {
-                padding: 25px 20px;
-            }
-            
-            .login-screen h1 {
-                font-size: 1.8rem;
-            }
-            
-            .password-input input {
-                width: 50px;
-                height: 50px;
-                font-size: 1.4rem;
-            }
-            
-            .separator {
-                width: 20px;
-                font-size: 1.6rem;
-            }
-            
-            .submit-btn {
-                padding: 12px 30px;
-                font-size: 1.1rem;
-            }
-            
-            .letter-content {
-                font-size: 1rem;
-                line-height: 1.6;
-            }
-            
-            .letter-section h2 {
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .password-input input {
-                width: 45px;
-                height: 45px;
-                font-size: 1.3rem;
-            }
-            
-            .separator {
-                width: 15px;
-                font-size: 1.5rem;
-            }
-        }
-
-        /* Animações */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -336,36 +244,15 @@
         .fade-in {
             animation: fadeIn 0.8s ease-out;
         }
-
-        /* Instrução para teclado numérico */
-        .keyboard-note {
-            font-size: 0.9rem;
-            color: #d4b3ff;
-            margin-top: 20px;
-            font-style: italic;
-            opacity: 0.8;
-        }
-
-        /* Animação para aparecimento do texto */
-        @keyframes typewriter {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .letter-content p {
-            animation: typewriter 0.8s ease-out;
-        }
     </style>
 </head>
 <body>
-    <!-- Área de partículas -->
     <div id="particles-js"></div>
     
     <div class="container">
-        <!-- Tela de login/senha -->
         <div class="login-screen fade-in" id="loginScreen">
-            <h1><i class="fas fa-lock"></i> Carta Digital</h1>
-            <p>Para acessar esta carta, insira a data especial</p>
+            <h1><i class="fas fa-lock"></i> Carta pra você</h1>
+            <p>Insira a data especial para abrir</p>
             
             <div class="password-container">
                 <div class="password-input">
@@ -377,272 +264,114 @@
                 </div>
             </div>
             
-            <p class="keyboard-note">Use o teclado numérico do seu dispositivo</p>
-            
             <button class="submit-btn" id="submitBtn">
-                <i class="fas fa-paper-plane"></i> Acessar Carta
+                <i class="fas fa-paper-plane"></i> Ler carta
             </button>
-            
             <div class="error-message" id="errorMessage"></div>
         </div>
         
-        <!-- Tela da carta (inicialmente oculta) -->
         <div class="letter-screen" id="letterScreen">
             <div class="letter-container">
-                <!-- Saudação inicial -->
-                <div class="letter-section">
-                    <div class="text-container">
-                        <div class="read-only-indicator">
-                            <i class="fas fa-eye"></i> Somente leitura
-                        </div>
-                        <label class="container-label">Saudação inicial:</label>
-                        <div class="letter-content">
-                            <p>Meu amor,</p>
-                            <p>Escrevo estas palavras com o coração transbordando de sentimentos que, por vezes, são difíceis de expressar em simples frases. Há tanto dentro de mim que precisa ser dito, tanto que guardei em silêncio, esperando o momento certo para compartilhar.</p>
-                        </div>
-                    </div>
-                </div>
                 
-                <!-- O que sinto por você -->
                 <div class="letter-section">
                     <div class="text-container">
-                        <div class="read-only-indicator">
-                            <i class="fas fa-eye"></i> Somente leitura
-                        </div>
-                        <label class="container-label">O que sinto por você:</label>
+                        <div class="read-only-indicator"><i class="fas fa-heart"></i></div>
+                        <label class="container-label">Sobre nós:</label>
                         <div class="letter-content">
-                            <div class="content-title">Meus Sentimentos</div>
-                            <p>Desde que você entrou na minha vida, tudo ganhou novas cores. Os dias se tornaram mais brilhantes e as noites, menos solitárias. Seu sorriso é o primeiro pensamento que tenho ao acordar e o último antes de dormir.</p>
-                            <p>O que sinto por você vai além do que palavras podem descrever. É uma mistura de admiração, respeito, carinho e um amor que cresce a cada dia. Você me faz querer ser uma pessoa melhor, me inspira a alcançar meus sonhos e me dá forças nos momentos difíceis.</p>
+                            <p>Bom, eu nem sei bem como começar isso. Eu não queria sair da sua vida sem antes te dizer pelo menos um adeus de verdade, sabe?</p>
+                            <p>Apesar de tudo, fico feliz que tenha acabado sem brigas. Mesmo sendo triste que tenha chegado ao fim, eu me sinto em paz por termos resolvido as coisas direito, cada um com suas coisas devolvidas e sem mágoas pesadas.</p>
+                            <p>Mas, de verdade? Eu vou sentir falta. Porque no fundo, eu queria muito que fosse você... queria tanto que tivesse sido você a pessoa pro resto da vida.</p>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Memórias especiais -->
+
                 <div class="letter-section">
                     <div class="text-container">
-                        <div class="read-only-indicator">
-                            <i class="fas fa-eye"></i> Somente leitura
-                        </div>
-                        <label class="container-label">Memórias especiais:</label>
+                        <div class="read-only-indicator"><i class="fas fa-star"></i></div>
+                        <label class="container-label">O que fica:</label>
                         <div class="letter-content">
-                            <div class="content-title">Momentos Inesquecíveis</div>
-                            <p>Lembro-me perfeitamente da primeira vez que nossos olhares se cruzaram. Havia algo mágico naquele momento, como se o universo estivesse nos alinhando. Desde então, cada momento ao seu lado se tornou uma memória preciosa.</p>
-                            <p>Aquele passeio no parque sob a chuva suave, as conversas até tarde da noite sobre nossos sonhos e medos, o silêncio confortável quando apenas estar juntos era suficiente... Cada um desses momentos está guardado no meu coração.</p>
-                            <p>O dia 01/06/2023 ficará para sempre marcado em minha memória como um dos mais especiais que já vivi ao seu lado.</p>
+                            <div class="content-title">O impacto que você causou</div>
+                            <p>Você fez uma diferença gigante na minha vida. Hoje eu ainda estou processando, mas sei que no futuro, quando a ficha cair e a saudade apertar, vai doer de verdade. Eu ainda me preocupo contigo.</p>
+                            <p>Fiz muitas promessas que, infelizmente, não consegui cumprir, mas saiba que eu queria muito ter realizado cada uma delas ao seu lado. Sinto falta de tudo, até das nossas discussões bobas, mas minha parte favorita eram aquelas conversas jogadas fora, só pra gastar o tempo com você.</p>
+                            <p>Olho pro que vivemos e não me arrependo de nada. Viveria tudo de novo se fosse com você.</p>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Mensagem final -->
+
                 <div class="letter-section">
                     <div class="text-container">
-                        <div class="read-only-indicator">
-                            <i class="fas fa-eye"></i> Somente leitura
-                        </div>
-                        <label class="container-label">Mensagem final:</label>
+                        <div class="read-only-indicator"><i class="fas fa-graduation-cap"></i></div>
+                        <label class="container-label">Sobre o seu futuro:</label>
                         <div class="letter-content">
-                            <p>Quero que saiba que, independentemente do que a vida nos reservar, meu sentimento por você permanecerá verdadeiro e constante. Você é a pessoa mais especial que já conheci, e sou imensamente grato(a) por ter você em minha vida.</p>
-                            <p>Que possamos continuar escrevendo nossa história juntos, criando novas memórias e fortalecendo esse laço que nos une.</p>
+                            <div class="content-title">Voa alto</div>
+                            <p>Nosso fim foi doloroso, mas agora eu preciso que você foque totalmente em você. Corre atrás do seu futuro e da sua independência. Eu sei que agora você está namorando e, de coração, eu fico feliz por isso.</p>
+                            <p>Mas escuta o que eu vou te dizer: não dependa de ninguém. Eu sei o quanto você quer vencer e o quanto você se esforça, mas se esforça ainda mais. Dá um jeito até no que parece não ter jeito. Não deixa pra amanhã o que você pode construir hoje.</p>
+                            <p>Mesmo cansada, desanimada ou com crises, continua. Eu quero te ver vencer e eu sei que você vai conseguir.</p>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Assinatura -->
+
                 <div class="letter-section">
                     <div class="text-container">
-                        <div class="read-only-indicator">
-                            <i class="fas fa-eye"></i> Somente leitura
-                        </div>
-                        <label class="container-label">Assinatura:</label>
+                        <div class="read-only-indicator"><i class="fas fa-check"></i></div>
+                        <label class="container-label">A despedida:</label>
                         <div class="letter-content">
-                            <p>Com todo o meu amor e carinho,</p>
-                            <p style="font-style: italic; margin-top: 10px;">Para sempre seu(sua),<br>
-                            <span style="color: #c770ff; font-weight: bold;">[Seu Nome]</span></p>
+                            <p>Parabéns pela sua formatura! Vi as fotos e você estava espetacular, de verdade.</p>
+                            <p>Eu não sumi por mal. Se um dia você precisar de qualquer ajuda, eu estarei aqui. Você fez muito por mim e eu retribuiria o que for preciso por você.</p>
+                            <p>Hoje a gente não tá mais junto, mas entende uma coisa...</p>
+                            <p style="font-style: italic; margin-top: 10px; text-align: center; font-size: 1.3rem; color: #c770ff;">
+                                "Você sempre vai ser a minha princesa."
+                            </p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // Configuração das partículas (estrelas)
         document.addEventListener('DOMContentLoaded', function() {
             particlesJS("particles-js", {
                 particles: {
-                    number: { value: 150, density: { enable: true, value_area: 800 } },
+                    number: { value: 100, density: { enable: true, value_area: 800 } },
                     color: { value: "#8a2be2" },
                     shape: { type: "circle" },
                     opacity: { value: 0.5, random: true },
-                    size: { value: 3, random: true },
-                    line_linked: { enable: false },
-                    move: { enable: true, speed: 1, direction: "none", random: true }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: { enable: true, mode: "repulse" },
-                        onclick: { enable: true, mode: "push" }
-                    }
+                    size: { value: 2, random: true },
+                    move: { enable: true, speed: 0.5, direction: "none", random: true }
                 }
             });
-            
-            // Configurar campos de data
             setupDateInputs();
-            
-            // Validação da senha (data)
             document.getElementById('submitBtn').addEventListener('click', validatePassword);
-            
-            // Permitir Enter para enviar
-            document.getElementById('year').addEventListener('keyup', function(event) {
-                if (event.key === 'Enter') {
-                    validatePassword();
-                }
-            });
-            
-            // Focar no primeiro campo ao carregar a página
-            setTimeout(() => {
-                document.getElementById('day').focus();
-            }, 300);
         });
-        
-        // Configurar campos de data
+
         function setupDateInputs() {
-            const dayInput = document.getElementById('day');
-            const monthInput = document.getElementById('month');
-            const yearInput = document.getElementById('year');
-            const sep1 = document.getElementById('sep1');
-            const sep2 = document.getElementById('sep2');
+            const inputs = [document.getElementById('day'), document.getElementById('month'), document.getElementById('year')];
+            const seps = [document.getElementById('sep1'), document.getElementById('sep2')];
             
-            // Permitir apenas números
-            [dayInput, monthInput, yearInput].forEach(input => {
-                input.addEventListener('input', function(e) {
-                    // Remover caracteres não numéricos
+            inputs.forEach((input, i) => {
+                input.addEventListener('input', function() {
                     this.value = this.value.replace(/\D/g, '');
-                    
-                    // Mostrar barras quando houver conteúdo
-                    updateSeparators();
-                    
-                    // Auto-avanço entre campos
-                    if (this.value.length >= this.maxLength) {
-                        if (this === dayInput) {
-                            monthInput.focus();
-                        } else if (this === monthInput) {
-                            yearInput.focus();
-                        }
-                    }
-                });
-                
-                // Tratar tecla Backspace
-                input.addEventListener('keydown', function(e) {
-                    if (e.key === 'Backspace' && this.value === '') {
-                        if (this === monthInput) {
-                            dayInput.focus();
-                        } else if (this === yearInput) {
-                            monthInput.focus();
-                        }
-                    }
-                });
-                
-                // Mostrar barras ao focar no campo
-                input.addEventListener('focus', function() {
-                    updateSeparators();
+                    if (this.value.length > 0 && seps[i]) seps[i].classList.add('visible');
+                    if (this.value.length >= this.maxLength && inputs[i+1]) inputs[i+1].focus();
                 });
             });
-            
-            // Função para atualizar visibilidade das barras
-            function updateSeparators() {
-                // Mostrar primeira barra se o dia tiver algum conteúdo
-                if (dayInput.value.length > 0) {
-                    sep1.classList.add('visible');
-                } else {
-                    sep1.classList.remove('visible');
-                }
-                
-                // Mostrar segunda barra se o mês tiver algum conteúdo
-                if (monthInput.value.length > 0) {
-                    sep2.classList.add('visible');
-                } else {
-                    sep2.classList.remove('visible');
-                }
-            }
         }
-        
-        // Função para validar a senha (data)
+
         function validatePassword() {
-            const day = document.getElementById('day').value;
-            const month = document.getElementById('month').value;
-            const year = document.getElementById('year').value;
-            const errorMessage = document.getElementById('errorMessage');
+            const d = document.getElementById('day').value;
+            const m = document.getElementById('month').value;
+            const y = document.getElementById('year').value;
             
-            // Verificar se todos os campos foram preenchidos
-            if (!day || !month || !year) {
-                errorMessage.textContent = 'Por favor, preencha todos os campos.';
-                
-                // Piscar campos vazios
-                if (!day) document.getElementById('day').style.borderColor = '#ff4d8d';
-                if (!month) document.getElementById('month').style.borderColor = '#ff4d8d';
-                if (!year) document.getElementById('year').style.borderColor = '#ff4d8d';
-                
-                setTimeout(() => {
-                    document.getElementById('day').style.borderColor = '';
-                    document.getElementById('month').style.borderColor = '';
-                    document.getElementById('year').style.borderColor = '';
-                }, 1000);
-                
-                return;
-            }
-            
-            // Verificar se a data corresponde a 01/06/2023
-            if (day === '01' && month === '06' && year === '2023') {
-                // Esconder tela de login e mostrar a carta
+            // COLOQUE A DATA CERTA AQUI (Exemplo: 01/06/2023)
+            if (d === '01' && m === '06' && y === '2023') {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('letterScreen').style.display = 'block';
                 document.getElementById('letterScreen').classList.add('fade-in');
-                errorMessage.textContent = '';
-                
-                // Adicionar animação de digitação ao conteúdo
-                const letterContents = document.querySelectorAll('.letter-content');
-                letterContents.forEach((content, index) => {
-                    content.style.animationDelay = `${index * 0.2}s`;
-                });
             } else {
-                errorMessage.textContent = 'Data incorreta. Tente novamente.';
-                
-                // Efeito de shake nos campos
-                const inputs = document.querySelectorAll('.password-input input');
-                inputs.forEach(input => {
-                    input.style.transform = 'translateX(0)';
-                    void input.offsetWidth; // Trigger reflow
-                    
-                    // Animar shake
-                    input.style.animation = 'shake 0.5s ease-in-out';
-                    setTimeout(() => {
-                        input.style.animation = '';
-                    }, 500);
-                });
-                
-                // Animar o erro
-                errorMessage.style.animation = 'none';
-                void errorMessage.offsetWidth;
-                errorMessage.style.animation = 'fadeIn 0.5s ease-out';
-                
-                // Focar no primeiro campo e selecionar todo o texto
-                document.getElementById('day').focus();
-                document.getElementById('day').select();
-                
-                // Adicionar animação de shake
-                const style = document.createElement('style');
-                style.textContent = `
-                    @keyframes shake {
-                        0%, 100% { transform: translateX(0); }
-                        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                        20%, 40%, 60%, 80% { transform: translateX(5px); }
-                    }
-                `;
-                document.head.appendChild(style);
+                document.getElementById('errorMessage').textContent = 'Data incorreta. Tente novamente.';
             }
         }
     </script>
